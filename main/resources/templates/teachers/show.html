@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="#{mendel.teachers.details}"></h1>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.teachers.fields.id}"></th>
+                <th th:text="#{mendel.teachers.fields.firstName}"></th>
+                <th th:text="#{mendel.teachers.fields.lastName}"></th>
+                <th th:text="#{mendel.teachers.fields.checkIn}"></th>
+                <th th:text="#{mendel.teachers.fields.checkOut}"></th>
+                <th th:text="#{mendel.teachers.fields.hours}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th th:text="${teacher.id}"></th>
+                <th th:text="${teacher.firstName}"></th>
+                <th th:text="${teacher.lastName}"></th>
+                <th th:text="${teacher.getFormattedCheckIn()}"></th>
+                <th th:text="${teacher.getFormattedCheckOut()}"></th>
+                <th th:text="${teacher.hours}"></th>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:each="course : ${teacher.courses}">
+            <h4 th:text="${course.name}"></h4>
+            <table class="table table-hover">
+                <tr th:each="s : ${course.getTimetable()}">
+                    <th th:text="${s}"></th>
+                </tr>
+            </table>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.courses}"></th>
+            </tr>
+            </thead>
+            <tr th:each="course : ${teacher.courses}">
+                <th><a th:text="${course.group.getName()} + ' ' + ${course.name}" th:href="@{/courses/show(id=${course.id})}"></a></th>
+            </tr>
+        </table>
+
+        <!--<div th:if="${teacher.timetable.length() > 0}">
+            <h3>Test:</h3>
+            <table class="table borderless">
+                <tr th:each="i : ${#numbers.sequence(1, 14)}">
+                    <td th:each="j : ${#numbers.sequence(1, 5)}"
+                        th:text="|${i}, ${j}|"></td>
+                </tr>
+            </table>
+        </div>
+
+        <br/><br/>
+-->
+        <a class="btn btn-primary" th:href="@{/teachers/}" th:text="#{mendel.general.back}"></a>
+
+        <div class="pull-right">
+            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/teachers/edit(id=${teacher.id})}"></a>
+            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.teachers.messages.delete} + '\');'" th:href="@{/teachers/delete(id=${teacher.id})}"></a>
+        </div>
+
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

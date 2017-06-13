@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <div th:if="${groups == null}">
+            <h1 th:text="#{mendel.teachers.messages.courses}"></h1>
+            <p th:text="#{mendel.teachers.messages.courses.info}"></p>
+            <a class="btn btn-primary" th:href="@{/courses/create}" th:text="#{mendel.courses.create}"></a>
+        </div>
+
+        <div th:if="${groups != null}">
+            <h1 th:text="#{mendel.teachers.create}"></h1>
+
+            <div th:fragment="create">
+
+                <form method="post" class="form-style" th:object="${teacher}">
+                    <div class="form-group">
+                        <label th:for="firstName" th:text="#{mendel.teachers.fields.firstName}"></label>
+                        <input type="text" class="form-control" th:placeholder="#{mendel.teachers.fields.firstName}" th:field="*{firstName}"/>
+                        <span class="error" th:errors="*{firstName}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="lastName" th:text="#{mendel.teachers.fields.lastName}"></label>
+                        <input type="text" class="form-control" th:placeholder="#{mendel.teachers.fields.lastName}" th:field="*{lastName}"/>
+                        <span class="error" th:errors="*{lastName}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="hours" th:text="#{mendel.teachers.fields.hours}"></label>
+                        <input type="number" min="0" max="100" class="form-control" th:placeholder="#{mendel.teachers.fields.hours}" th:field="*{hours}"/>
+                        <span class="error" th:errors="*{hours}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="courses" th:text="#{mendel.teachers.fields.courses}"></label>
+
+                        <div th:if="${!editing}">
+                            <!--not Editing-->
+                            <select th:field="*{courses}" multiple="multiple" class="form-control chosen-select">
+                                <optgroup label="default" th:each="group : ${groups}" th:label="${group.name}" th:with="courses=${group.freeCourses()}">
+                                    <option th:if="${!courses.empty}"
+                                            th:each="course : ${courses}"
+                                            th:text="${course.name}"
+                                            th:value="${course.id}"></option>
+
+                                    <option th:if="${courses.empty}"
+                                            th:text="#{mendel.teachers.messages.courses.noFreeCourses}"
+                                            th:value="${0}"
+                                            th:disabled="true">
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div th:if="${editing}">
+                            <!--Editing-->
+                            <select th:field="*{courses}" multiple="multiple" class="form-control chosen-select">
+                                <optgroup label="default" th:each="group : ${groups}" th:label="${group.name}">
+                                    <option th:if="${!group.freeCourses(teacher).empty}"
+                                            th:each="course : ${group.freeCourses(teacher)}"
+                                            th:text="${course.name}"
+                                            th:value="${course.id}"></option>
+
+                                    <option th:if="${group.freeCourses(teacher).empty}"
+                                            th:text="#{mendel.teachers.messages.courses.noFreeCourses}"
+                                            th:value="${0}"
+                                            th:disabled="true">
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="checkIn" th:text="#{mendel.teachers.fields.checkIn}"></label>
+
+                        <select th:field="*{checkIn}" class="form-control">
+                            <option th:each="hour : ${checkInHours}"
+                                    th:text="${hour.getAmPmTime()}"
+                                    th:value="${hour.hourOfDay}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="checkOut" th:text="#{mendel.teachers.fields.checkOut}"></label>
+
+                        <select th:field="*{checkOut}" class="form-control">
+                            <option th:each="hour : ${checkOutHours}"
+                                    th:text="${hour.getAmPmTime()}"
+                                    th:value="${hour.hourOfDay}"></option>
+                        </select>
+                    </div>
+
+                    <div id="message">
+                        <span class="error" th:text="#{mendel.teachers.messages.hours}"></span>
+                    </div>
+
+                    <input id="inputBtn" type="submit" class="btn btn-success" th:value="${buttonText}"/>
+                    <a class="btn btn-warning pull-right" th:text="#{mendel.general.cancel}"
+                       th:href="@{/teachers/}"></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <div th:unless="${groups != null}">
+            <h1 th:text="#{mendel.groups.messages.empty}"></h1>
+        </div>
+        <div th:unless="${groups == null}">
+            <h1 th:text="#{mendel.groups.all}"></h1>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th th:text="#{mendel.groups.fields.name}"></th>
+                    <th th:text="#{mendel.groups.fields.semester}"></th>
+                    <th th:text="#{mendel.groups.fields.shift}"></th>
+                    <th th:text="#{mendel.groups.fields.career}"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="group : ${groups}">
+                    <th><a th:text="${group.name}" th:href="@{/groups/show(id=${group.id})}"></a></th>
+                    <th th:text="${group.semester}"></th>
+                    <th th:text="${group.shift.name}"></th>
+                    <th th:text="${group.career.acronym}"></th>
+                    <th>
+                        <div class="btn-group btn-group-sm pull-right" role="group">
+                            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/groups/edit(id=${group.id})}"></a>
+                            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.groups.messages.delete} + '\');'" th:href="@{/groups/delete(id=${group.id})}"></a>
+                        </div>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary" th:text="#{mendel.groups.create}" th:href="@{/groups/create}"></a>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

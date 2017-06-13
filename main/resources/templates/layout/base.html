@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <title th:text="${title}">Mendel</title>
+
+    <!--                    JS                    -->
+
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <!--Bootstrap-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Custom js-->
+    <script type="text/javascript" th:src="@{/js/functions.js}"></script>
+    <script type="text/javascript" th:src="@{/js/chosen.jquery.min.js}"></script>
+
+    <!--                    CSS                    -->
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <!--Custom css-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+
+    <link rel="stylesheet" th:href="@{/css/chosen.min.css}"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Amiko" rel="stylesheet"/>
+
+
+</head>
+<body>
+<!--<div th:fragment="navigation" class="row test col-md-2">-->
+<div th:fragment="navigation" class="row control col-md-2">
+    <!--<ul class="nav nav-pills nav-stacked span3 pull-left">-->
+    <ul id="nav-list" class="row nav nav-stacked">
+        <li><a class="app-title" th:href="@{/}">I T T G</a></li>
+        <li><a th:href="@{/buildings/}" th:text="#{mendel.buildings}"></a></li>
+        <li><a th:href="@{/classrooms/}" th:text="#{mendel.classrooms}"></a></li>
+        <li><a th:href="@{/careers/}" th:text="#{mendel.careers}"></a></li>
+        <li><a th:href="@{/groups/}" th:text="#{mendel.groups}"></a></li>
+        <li><a th:href="@{/courses/}" th:text="#{mendel.courses}"></a></li>
+        <li><a th:href="@{/teachers/}" th:text="#{mendel.teachers}"></a></li>
+    </ul>
+</div>
+
+<div  th:fragment="footer">
+    <footer class="footer">
+        <div class="container">
+            <div class="info text-center">
+                <span th:text="#{mendel.footer.info}"></span>
+                <br/>
+                <a href="mailto:albertoalegria01@gmail.com?Subject=Mendel" target="_blank" th:text="#{mendel.footer.contact}"></a>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="${title}"></h1>
+
+        <table class="table table-striped">
+            <tr th:each="t : ${timetable}">
+                <th th:text="${t}"></th>
+            </tr>
+        </table>
+
+        <!--
+        &lt; for <
+        &gt; for >
+        -->
+
+        <div th:if="${isPreview}">
+            <h3 th:text="#{mendel.ga.fitness.info}"></h3>
+            <div th:if="${fitness == 0}">
+                <h4 class="very-good" th:text="${fitness} + ' - ' + #{mendel.ga.fitness.veryGood}"></h4>
+            </div>
+
+            <div th:if="${fitness ge 1 and fitness lt 3}">
+                <h4 class="good" th:text="${fitness} + ' - ' + #{mendel.ga.fitness.good}"></h4>
+            </div>
+
+            <div th:if="${fitness ge 3 and fitness lt 5}">
+                <h4 class="regular" th:text="${fitness} + ' - ' + #{mendel.ga.fitness.regular}"></h4>
+            </div>
+
+            <div th:if="${fitness ge 5}">
+                <h4 class="bad" th:text="${fitness} + ' - ' + #{mendel.ga.fitness.bad}"></h4>
+            </div>
+        </div>
+
+        <br/>
+
+        <a th:if="${isPreview}" th:href="@{/save(id=${id})}" th:text="#{mendel.ga.timetable.save}" class="btn btn-success"></a>
+        <a th:if="${!isPreview}" th:href="@{/}" th:text="#{mendel.general.back}" class="btn btn-primary"></a>
+        <a th:if="${isPreview}" th:href="@{/generate(id=${id})}" th:text="#{mendel.ga.timetable.another}" class="btn btn-warning pull-right"></a>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

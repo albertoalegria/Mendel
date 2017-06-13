@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="#{mendel.courses.details}"></h1>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.courses.fields.id}"></th>
+                <th th:text="#{mendel.courses.fields.size}"></th>
+                <th th:text="#{mendel.courses.fields.name}"></th>
+                <th th:text="#{mendel.courses.fields.acronym}"></th>
+                <th th:text="#{mendel.courses.fields.key}"></th>
+                <th th:text="#{mendel.courses.fields.group}"></th>
+                <th th:text="#{mendel.courses.fields.classHours}"></th>
+                <th th:text="#{mendel.courses.fields.teacher}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th th:text="${course.id}"></th>
+                <th th:text="${course.size}"></th>
+                <th th:text="${course.name}"></th>
+                <th th:text="${course.acronym}"></th>
+                <th th:text="${course.key}"></th>
+                <th th:text="${course.group.name}"></th>
+                <th th:text="${course.classHours}"></th>
+                <th th:if="${course.teacher != null}"><a th:text="${course.teacher.firstName}" th:href="@{/teachers/show(id=${course.teacher.id})}"></a></th>
+                <th th:if="${course.teacher == null}" th:text="#{mendel.courses.messages.noTeacher}"></th>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.courses.messages.possibleClassrooms}"></th>
+            </tr>
+            </thead>
+            <tr th:each="classroom : ${course.classrooms}">
+                <th><a th:text="${classroom.getName()}" th:href="@{/classrooms/show(id=${classroom.id})}"></a></th>
+
+            </tr>
+        </table>
+        <a class="btn btn-primary" th:href="@{/courses/}" th:text="#{mendel.general.back}"></a>
+
+        <div class="pull-right">
+            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/courses/edit(id=${course.id})}"></a>
+            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.groups.messages.delete} + '\');'" th:href="@{/courses/delete(id=${course.id})}"></a>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+ @Column(name = "teacher_timetable")
+    private String timetable;
+
+    @Column(name = "teacher_preferred_timetable")
+    private String preferredTimetable;
+
+    @Transient
+    private List<Time> timetableArray;
+
+    @Transient
+    private List<Time> preferredTimetableArray;
+
+    public void buildTimetable() {
+            timetableArray = new ArrayList<>();
+            preferredTimetableArray = Utils.TimesUtils.getTimesArray(checkIn, checkOut);
+
+            timetable = "";
+            preferredTimetable = Utils.ArrayUtils.timesToString(preferredTimetableArray);
+        }
+
+        public void updateStrings() {
+            timetable = Utils.ArrayUtils.timesToString(timetableArray);
+            preferredTimetable = Utils.ArrayUtils.timesToString(preferredTimetableArray);
+        }
+
+        public void updateArrays() {
+            timetableArray = Utils.ArrayUtils.stringToTimes(timetable);
+            preferredTimetableArray = Utils.ArrayUtils.stringToTimes(preferredTimetable);
+        }
+
+           public String getTimetable() {
+                return timetable;
+            }
+
+            public void setTimetable(String timetable) {
+                this.timetable = timetable;
+            }
+
+            public String getPreferredTimetable() {
+                return preferredTimetable;
+            }
+
+            public void setPreferredTimetable(String preferredTimetable) {
+                this.preferredTimetable = preferredTimetable;
+            }
+
+            public List<Time> getTimetableArray() {
+                return timetableArray;
+            }
+
+            public void setTimetableArray(List<Time> timetableArray) {
+                this.timetableArray = timetableArray;
+            }
+
+            public List<Time> getPreferredTimetableArray() {
+                return preferredTimetableArray;
+            }
+
+            public void setPreferredTimetableArry(List<Time> preferredTimetableArray) {
+                this.preferredTimetableArray = preferredTimetableArray;
+            }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <form method="post" class="form-style" th:object="${course}">
+
+        </form>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

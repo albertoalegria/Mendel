@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+
+        <div th:unless="${buildings != null}">
+            <h1 th:text="#{mendel.classrooms.messages.buildings}"></h1>
+            <p th:text="#{mendel.classrooms.messages.buildings.info}"></p>
+            <a class="btn btn-primary" th:href="@{/buildings/create}" th:text="#{mendel.buildings.create}"></a>
+        </div>
+
+        <div th:unless="${buildings == null}">
+            <h1 th:text="#{mendel.classrooms.create}"></h1>
+            <div th:fragment="create">
+                <form method="post" class="form-style" th:object="${classroom}">
+                    <div class="form-group">
+                        <label th:for="identifier" th:text="#{mendel.classrooms.fields.identifier}"></label>
+                        <input type="text" class="form-control" th:placeholder="#{mendel.classrooms.fields.identifier}"
+                               th:field="*{identifier}"/>
+                        <span class="error" th:errors="*{identifier}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="size" th:text="#{mendel.classrooms.fields.size}"></label>
+                        <input type="number" min="0" max="100" class="form-control"
+                               th:placeholder="#{mendel.classrooms.fields.size}" th:field="*{size}"/>
+                        <span class="error" th:errors="*{size}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="type" th:text="#{mendel.classrooms.fields.type}"></label>
+                        <select th:field="*{type}" class="form-control">
+                            <option th:each="type : ${types}"
+                                    th:text="${type.name}"
+                                    th:value="${type}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="building" th:text="#{mendel.classrooms.fields.building}"></label>
+                        <select th:field="*{building}" class="form-control">
+                            <option th:each="building : ${buildings}"
+                                    th:text="${building.name}"
+                                    th:value="${building.id}"></option>
+                        </select>
+                    </div>
+
+                    <input type="submit" class="btn btn-success" th:value="${buttonText}"/>
+                    <a class="btn btn-warning pull-right" th:text="#{mendel.general.cancel}" th:href="@{/classrooms/}"></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

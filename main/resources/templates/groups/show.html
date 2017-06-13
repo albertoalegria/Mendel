@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="#{mendel.groups.details}">Default title</h1>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.groups.fields.id}"></th>
+                <th th:text="#{mendel.groups.fields.name}"></th>
+                <th th:text="#{mendel.groups.fields.semester}"></th>
+                <th th:text="#{mendel.groups.fields.shift}"></th>
+                <th th:text="#{mendel.groups.fields.career}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th th:text="${group.id}"></th>
+                <th th:text="${group.name}"></th>
+                <th th:text="${group.semester}"></th>
+                <th th:text="${group.shift.name}"></th>
+                <th th:text="${group.career.name}"></th>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{mendel.courses}"></th>
+            </tr>
+            </thead>
+            <tr th:each="course : ${group.courses}">
+                <th><a th:text="${course.name}" th:href="@{/courses/show(id=${course.id})}"></a></th>
+            </tr>
+        </table>
+
+
+        <div th:each="course : ${group.courses}">
+            <h4 th:text="${course.name}"></h4>
+            <table class="table table-hover">
+                <tr th:each="s : ${course.getTimetable()}">
+                    <th th:text="${s}"></th>
+                </tr>
+            </table>
+        </div>
+
+        <a class="btn btn-primary" th:href="@{/groups/}" th:text="#{mendel.general.back}"></a>
+
+        <div class="pull-right">
+            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/groups/edit(id=${group.id})}"></a>
+            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.groups.messages.delete} + '\');'" th:href="@{/groups/delete(id=${group.id})}"></a>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

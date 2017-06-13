@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+    <div class="col-md-6 col-md-offset-4">
+        <div th:fragment="details">
+            <h1 th:text="#{mendel.classrooms.details}"></h1>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th th:text="#{mendel.classrooms.fields.id}"></th>
+                    <th th:text="#{mendel.classrooms.fields.identifier}"></th>
+                    <th th:text="#{mendel.classrooms.fields.size}"></th>
+                    <th th:text="#{mendel.classrooms.fields.type}"></th>
+                    <th th:text="#{mendel.classrooms.fields.building}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th th:text="${classroom.id}"></th>
+                    <th th:text="${classroom.identifier}"></th>
+                    <th th:text="${classroom.size}"></th>
+                    <th th:text="${classroom.type.name}"></th>
+                    <th th:text="${classroom.building.name}"></th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-primary" th:href="@{/classrooms/}" th:text="#{mendel.general.back}"></a>
+        <div class="pull-right">
+            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/classrooms/edit(id=${classroom.id})}"></a>
+            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.classrooms.messages.delete} + '\');'" th:href="@{/classrooms/delete(id=${classroom.id})}"></a>
+        </div>
+    </div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

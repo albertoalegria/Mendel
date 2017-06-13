@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="#{mendel.careers.create}">Default title</h1>
+
+        <div th:fragment="create">
+            <form method="post" class="form-style" th:object="${career}">
+                <div class="form-group">
+                    <label th:for="name" th:text="#{mendel.careers.fields.name}"></label>
+                    <input type="text" class="form-control" th:placeholder="#{mendel.careers.fields.name}" th:field="*{name}"/>
+                    <span class="error" th:errors="*{name}"></span>
+                </div>
+                <div class="form-group">
+                    <label th:for="acronym" th:text="#{mendel.careers.fields.acronym}"></label>
+                    <input type="text" class="form-control" th:placeholder="#{mendel.careers.fields.acronym}" th:field="*{acronym}"/>
+                    <span class="error" th:errors="*{acronym}"></span>
+                </div>
+                <input type="submit" class="btn btn-success" th:value="${buttonText}"/>
+                <a class="btn btn-warning pull-right" th:text="#{mendel.general.cancel}" th:href="@{/careers/}"></a>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

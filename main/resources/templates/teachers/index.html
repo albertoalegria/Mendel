@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-8 col-md-offset-3">
+        <div th:if="${teachers == null}">
+            <h1 th:text="#{mendel.teachers.messages.empty}"></h1>
+        </div>
+
+        <div th:if="${teachers != null}">
+            <h1 th:text="#{mendel.teachers.all}"></h1>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th th:text="#{mendel.teachers.fields.name}"></th>
+                    <th th:text="#{mendel.teachers.fields.courses}"></th>
+                    <th th:text="#{mendel.teachers.fields.hours}"></th>
+                    <th th:text="#{mendel.teachers.fields.totalHours}"></th>
+                    <th th:text="#{mendel.teachers.fields.checkIn}"></th>
+                    <th th:text="#{mendel.teachers.fields.checkOut}"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher : ${teachers}">
+                    <th><a th:text="${teacher.name}" th:href="@{/teachers/show(id=${teacher.id})}"></a></th>
+                    <th th:text="${teacher.courses.size()}"></th>
+                    <th th:text="${teacher.hours}"></th>
+                    <th th:text="${teacher.getTotalHours()}"></th>
+                    <th th:text="${teacher.getFormattedCheckIn()}"></th>
+                    <th th:text="${teacher.getFormattedCheckOut()}"></th>
+                    <th>
+                        <div class="btn-group btn-group-sm pull-right" role="group">
+                            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/teachers/edit(id=${teacher.id})}"></a>
+                            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.teachers.messages.delete} + '\');'" th:href="@{/teachers/delete(id=${teacher.id})}"></a>
+                        </div>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary" th:text="#{mendel.teachers.create}" th:href="@{/teachers/create}"></a>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

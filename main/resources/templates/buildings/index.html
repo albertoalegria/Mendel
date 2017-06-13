@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <div th:unless="${buildings != null}">
+            <h1 th:text="#{mendel.buildings.messages.empty}"></h1>
+        </div>
+        <div th:unless="${buildings == null}">
+            <h1 th:text="#{mendel.buildings.all}"></h1>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th th:text="#{mendel.buildings.fields.name}"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="building : ${buildings}">
+                    <th><a th:text="${building.name}" th:href="@{/buildings/show(id=${building.id})}"></a></th>
+                    <th>
+                        <div class="btn-group btn-group-sm pull-right">
+                            <a class="btn btn-warning" th:text="#{mendel.general.edit}" th:href="@{/buildings/edit(id=${building.id})}"></a>
+                            <a class="btn btn-danger" th:text="#{mendel.general.delete}" th:attr="onclick='return confirm(\'' + #{mendel.buildings.messages.delete} + '\');'" th:href="@{/buildings/delete(id=${building.id})}"></a></div>
+                    </th>
+                </tr>
+                </tbody>
+                </table>
+        </div>
+        <a class="btn btn-primary" th:text="#{mendel.buildings.create}" th:href="@{/buildings/create}"></a>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

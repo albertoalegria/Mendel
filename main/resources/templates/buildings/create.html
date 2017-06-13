@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <h1 th:text="#{mendel.buildings.create}"></h1>
+
+        <div th:fragment="create">
+            <form method="post" class="form-style" th:object="${building}">
+                <div class="form-group">
+                    <label th:field="name" th:text="#{mendel.buildings.fields.name}"></label>
+                    <input type="text" class="form-control" th:placeholder="#{mendel.buildings.fields.name}" th:field="*{name}"/>
+                    <span class="error" th:errors="*{name}"></span>
+                </div>
+
+                <input type="submit" class="btn btn-success" th:value="${buttonText}"/>
+                <a class="btn btn-warning pull-right" th:text="#{mendel.general.cancel}" th:href="@{/buildings/}"></a>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>

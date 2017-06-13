@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-8 col-md-offset-3">
+        <h1>Generate courses timetables</h1>
+        <div th:if="${not ok}">
+            <h2 th:text="#{mendel.index.notOk}"></h2>
+            <a th:href="@{/classrooms/create}" th:text="#{mendel.classrooms.create}" class="btn btn-primary"></a>
+            <a th:href="@{/courses/create}" th:text="#{mendel.courses.create}" class="btn btn-primary"></a>
+            <a th:href="@{/teachers/create}" th:text="#{mendel.teachers.create}" class="btn btn-primary"></a>
+        </div>
+
+        <div th:if="${ok}" th:each="group : ${groups}">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th><a th:href="@{/groups/show(id=${group.id})}" th:text="${group.getName()}"></a></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="course : ${group.courses}">
+                    <th><a th:href="@{/courses/show(id=${course.id})}" th:text="${course.name}"></a></th>
+                    <th>
+                        <div class="btn-group pull-right" role="group">
+                            <a th:if="${!course.timesHours.isEmpty()}" th:href="@{/show(id=${course.id})}" class="btn btn-success" th:text="#{mendel.ga.timetable.show}"></a>
+                            <a th:if="${course.timesHours.isEmpty()}" th:href="@{/generate(id=${course.id})}" class="btn btn-info" th:text="#{mendel.ga.timetable.generate}"></a>
+                        </div>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+            <!--<h3><a th:href="@{/groups/show(id=${group.id})}" th:text="${group.getName()}"></a></h3>
+            <table class="table table-hover">
+                <tr th:each="course : ${group.courses}">
+                    <th><a th:href="@{/courses/show(id=${course.id})}" th:text="${course.name}"></a></th>
+                    <th><a th:href="@{/generate(id=${course.id})}" class="btn btn-success">Generate Timetable</a></th>
+                </tr>
+            </table>-->
+        </div>
+        <a class="btn btn-lg btn-warning" th:text="#{mendel.ga.timetable.reset}" th:href="@{/resetall}" th:attr="onclick='return confirm(\'' + #{mendel.ga.timetable.reset.info} + '\');'"></a>
+
+    </div>
+</div>
+</body>
+<div th:replace="layout/base :: footer"></div>
+</html>

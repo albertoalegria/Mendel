@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/base :: head"></head>
+<body class="container-fluid">
+<div th:replace="layout/base :: navigation"></div>
+<div>
+    <div class="col-md-6 col-md-offset-4">
+        <div th:unless="${careers != null}">
+            <h1 th:text="#{mendel.groups.messages.careers}"></h1>
+            <p th:text="#{mendel.groups.messages.careers.info}"></p>
+            <a class="btn btn-primary" th:href="@{/careers/create}" th:text="#{mendel.careers.create}"></a>
+        </div>
+        <div th:unless="${careers == null}">
+
+            <h1 th:text="#{mendel.groups.create}">Default title</h1>
+
+            <div th:fragment="create">
+                <form method="post" class="form-style" th:object="${group}">
+
+                    <div class="form-group">
+                        <label th:for="semester" th:text="#{mendel.groups.fields.semester}"></label>
+                        <input type="number" min="0" max="20" class="form-control" th:placeholder="#{mendel.groups.fields.semester}" th:field="*{semester}"/>
+                        <span class="error" th:errors="*{semester}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="career" th:text="#{mendel.groups.fields.career}"></label>
+
+                        <select th:field="*{career}" class="form-control">
+                            <option th:each="career : ${careers}"
+                                    th:text="${career.name}"
+                                    th:value="${career.id}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label th:for="shift" th:text="#{mendel.groups.fields.shift}"></label>
+                        <select th:field="*{shift}" class="form-control">
+                            <option th:each="shift : ${shifts}"
+                                    th:text="${shift.name}"
+                                    th:value="${shift}">
+                            </option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-success" th:value="${buttonText}"/>
+                    <a class="btn btn-warning pull-right" th:text="#{mendel.general.cancel}" th:href="@{/groups/}"></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>
